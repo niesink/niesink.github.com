@@ -15,10 +15,11 @@ gietnaad-elem{
 </head><body>
 <gietnaad-elem></gietnaad-elem>
 <script>
-       document.addEventListener('polymer-ready', function() {
+       document.addEventListener('polymer-ready', function() {console.log('polymer vink');
   var navicon = document.getElementById('menu_button');
   var drawerPanel = document.getElementById('core_drawer_panel');
   navicon.addEventListener('click', function() {
+        console.log('clicky');
     drawerPanel.togglePanel();
   });
 });
