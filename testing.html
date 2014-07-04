@@ -64,33 +64,44 @@
       }
     </style>
 </head><body>
-    <core-drawer-panel selected="main" id="core_drawer_panel">
-      <section id="section1" main>
-        <core-animated-pages selected="{{ $.core_menu.selected }}" selectedindex="0" notap id="core_animated_pages">
-          <section id="twitterpanel" layout horizontal center center-justified active>
-            <core-scroll-header-panel condenses headerheight="192" condensedheaderheight="64" id="core_scroll_header_panel">
-              <core-toolbar id="core_toolbar" class="tall">
-                <core-icon-button icon="menu" id="menu_button"></core-icon-button>
-                <div id="div" flex></div>
-                <div id="div1" class="bottom indent">@Gietnaad timeline</div>
-              </core-toolbar>
-              <section id="timeline" content>
-                <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/gietnaad" data-widget-id="466185189102583809" data-chrome="noheader nofooter noborders transparent">Tweets van @gietnaad</a>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-              </section>
-            </core-scroll-header-panel>
-          </section>
-          <section id="kaart">
-            <iframe id="kaart_iframe" src="http://niesink.github.io/eurovision_track.html"></iframe>
-          </section>
-        </core-animated-pages>
-      </section>
-      <section id="section" drawer>
-        <core-menu selected="0" id="core_menu">
-          <core-item label="Timeline" icon="view-quilt" id="core_item" horizontal center layout active></core-item>
-          <core-item label="Kaart" icon="language" id="core_item2" horizontal center layout></core-item>
-        </core-menu>
-      </section>
-    </core-drawer-panel>
-</polymer-element>
+    <polymer-element name="name-tag">
+        <template>
+          <core-drawer-panel selected="main" id="core_drawer_panel">
+            <section id="section1" main>
+              <core-animated-pages selected="{{ $.core_menu.selected }}" selectedindex="0" notap id="core_animated_pages">
+                <section id="twitterpanel" layout horizontal center center-justified active>
+                  <core-scroll-header-panel condenses headerheight="192" condensedheaderheight="64" id="core_scroll_header_panel">
+                    <core-toolbar id="core_toolbar" class="tall">
+                      <core-icon-button icon="menu" id="menu_button"></core-icon-button>
+                      <div id="div" flex></div>
+                      <div id="div1" class="bottom indent">@Gietnaad timeline</div>
+                    </core-toolbar>
+                    <section id="timeline" content>
+                      <a class="twitter-timeline" data-dnt="true" href="https://twitter.com/gietnaad" data-widget-id="466185189102583809" data-chrome="noheader nofooter noborders transparent">Tweets van @gietnaad</a>
+                      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+                    </section>
+                  </core-scroll-header-panel>
+                </section>
+                <section id="kaart">
+                  <iframe id="kaart_iframe" src="http://niesink.github.io/eurovision_track.html"></iframe>
+                </section>
+              </core-animated-pages>
+            </section>
+            <section id="section" drawer>
+              <core-menu selected="0" id="core_menu">
+                <core-item label="Timeline" icon="view-quilt" id="core_item" horizontal center layout active></core-item>
+                <core-item label="Kaart" icon="language" id="core_item2" horizontal center layout></core-item>
+              </core-menu>
+            </section>
+          </core-drawer-panel>
+        </template>
+        <script>
+    Polymer('name-tag', {
+      // initialize the element's model
+      ready: function() {
+        this.owner = 'Rafael';
+      }
+    });
+  </script>
+      </polymer-element>
 </body></html>
