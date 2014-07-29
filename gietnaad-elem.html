@@ -11,6 +11,8 @@
 <link rel="import" href="app/bower_components/core-scroll-header-panel/core-scroll-header-panel.html">
 <link rel="import" href="app/bower_components/core-menu/core-submenu.html">
 <link rel="import" href="app/bower_components/core-item/core-item.html">
+<link rel="import" href="app/bower_components/core-icons/iconsets/social-icons.html">
+
     <polymer-element name="gietnaad-elem">
         <template>
         <style>    
@@ -87,7 +89,7 @@
                     <core-toolbar id="core_toolbar" class="tall">
                       <core-icon-button icon="menu" id="menu_button" onclick="var parent = this.parentNode; while(parent.tagName!=='CORE-DRAWER-PANEL'){parent=parent.parentNode;}parent.togglePanel();"></core-icon-button>
                       <div id="div" flex></div>
-                      <div id="div1" class="bottom indent">@Gietnaad timeline</div>
+                      <div id="div1" class="bottom indent">Gietnaad timeline</div>
                     </core-toolbar>
                     <section id="timeline" content>
                      <content></content>
@@ -99,7 +101,7 @@
                     <core-toolbar id="core_toolbar" class="tall">
                       <core-icon-button icon="menu" id="menu_button" onclick="var parent = this.parentNode; while(parent.tagName!=='CORE-DRAWER-PANEL'){parent=parent.parentNode;}parent.togglePanel();"></core-icon-button>
                       <div id="div" flex></div>
-                      <div id="div1" class="bottom indent">@Gietnaad timeline</div>
+                      <div id="div1" class="bottom indent">Gietnaad Positioning System</div>
                     </core-toolbar>
                     <section id="livekaart" content >
                     <iframe src="https://track2share.com/embed/?api=7172b3163&focus=717" ></iframe>
@@ -111,7 +113,7 @@
                     <core-toolbar id="core_toolbar" class="tall">
                       <core-icon-button icon="menu" id="menu_button" onclick="var parent = this.parentNode; while(parent.tagName!=='CORE-DRAWER-PANEL'){parent=parent.parentNode;}parent.togglePanel();"></core-icon-button>
                       <div id="div" flex></div>
-                      <div id="div1" class="bottom indent">@Gietnaad timeline</div>
+                      <div id="div1" class="bottom indent">Gietnaad goes eurovision</div>
                     </core-toolbar>
                     <section id="songfestival" content >
                   <iframe id="kaart_iframe" src="http://niesink.github.io/eurovision_track.html" ></iframe>
@@ -127,6 +129,7 @@
                 <core-submenu icon="history" label="Routes">               
                     <core-item label="Eurovision '14" icon="history" id="core_item3" horizontal center layout></core-item>
                 </core-submenu>
+                <core-item label="Twitter" icon="post-twitter" onclick="window.open('twitter.com/gietnaad);" horizontal center layout active></core-item>
               </core-menu>
             </section>
           </core-drawer-panel>
