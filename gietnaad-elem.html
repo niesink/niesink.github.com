@@ -59,9 +59,13 @@
         background-image: url(http://i.imgur.com/QADGTbI.jpg);
         background-position: 50% -90px;
       }
-      #kaart_iframe, .twitter_timeline {
-        width: 100%;
-        height: 100%;
+      section.#livekaart, section.#songfestival{
+          height:100%;
+          overflow: hidden;
+      }
+      #livekaart>iframe, #songfestival>iframe{
+          height:100%;
+          width: 100%;
       }
     </style>
           <core-drawer-panel selected="main" id="core_drawer_panel">
