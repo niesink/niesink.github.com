@@ -1,1 +1,43 @@
-<html><head></head><body><script type="text/javascript" src="http://gietnaad.tumblr.com/js"></script></body></html>
+<html><head><script type="text/javascript" src="http://gietnaad.tumblr.com/api/read/json"></script></head>
+<style>
+#posts img{
+  width:100%;
+}
+#posts{
+  list-style-type:none;
+  margin:0;
+  padding:0;
+}
+body{
+  font-family: "RobotoDraft, sans-serif";
+}
+</style>
+<body>
+<ul id="posts">
+</ul>
+<script type="text/javascript">
+console.log(tumblr_api_read);
+tumblr_api_read.posts.forEach(function(post){
+
+  var postNode = document.createElement('li');
+
+  var postPhoto = document.createElement('img');
+  postPhoto.src = post["photo-url-"+post.width];
+  var maxWidth=post.width;
+  if(postPhoto.src===undefined){
+    postPhoto.src = post["photo-url-500"];
+    maxWidth=500;
+  }
+  postPhoto.style.width = "100%";
+  postPhoto.style.maxWidth = maxWidth+"px";
+  postNode.appendChild(postPhoto);
+
+  var postTitle = document.createElement('h3');
+  postTitle.innerHTML = post["photo-caption"];
+  postNode.appendChild(postTitle);
+
+  document.querySelector('#posts').appendChild(postNode);
+});
+</script>
+</body>
+</html>
