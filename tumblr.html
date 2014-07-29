@@ -9,7 +9,7 @@
   padding:0;
 }
 body{
-  font-family: "RobotoDraft, sans-serif";
+  font-family: RobotoDraft, sans-serif;
 }
 </style>
 <body>
@@ -32,7 +32,7 @@ tumblr_api_read.posts.forEach(function(post){
   postPhoto.style.maxWidth = maxWidth+"px";
   postNode.appendChild(postPhoto);
 
-  var postTitle = document.createElement('h3');
+  var postTitle = document.createElement('p');
   postTitle.innerHTML = post["photo-caption"];
   postNode.appendChild(postTitle);
 
