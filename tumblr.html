@@ -17,11 +17,20 @@ body{
   background-size: contain;
   background-repeat: no-repeat;
   width: 100%;
+  height:0;
   background-size:cover
 }
-#posts>div>h3{
-  padding-top:2em;
-  background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.8) 100%)
+#posts>div>div{
+  font-size:150%;
+  margin-top:-3em;
+  padding-left:1em;
+  padding-right:1em;
+  height:3em;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.8) 80%,rgba(255,255,255,1) 100%);
+}
+#posts>div>div p{
+  padding:0;
+  margin:0;
 }
 </style>
 <body>
@@ -41,7 +50,7 @@ tumblr_api_read.posts.forEach(function(post){
   var paddingTop = post.height * 100 / post.width;
   postNode.style.paddingTop= paddingTop+"%";
 
-  var postTitle = document.createElement('h3');
+  var postTitle = document.createElement('div');
   postTitle.innerHTML = post["photo-caption"];
   postNode.appendChild(postTitle);
 
