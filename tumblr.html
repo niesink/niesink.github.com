@@ -19,7 +19,7 @@ body{
   width: 100%;
   background-size:cover
 }
-#posts>div>div{
+#posts>div>h3{
   padding-top:2em;
   background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,0.5) 50%,rgba(255,255,255,0.8) 100%)
 }
@@ -41,7 +41,7 @@ tumblr_api_read.posts.forEach(function(post){
   var paddingTop = post.height * 100 / post.width;
   postNode.style.paddingTop= paddingTop+"%";
 
-  var postTitle = document.createElement('div');
+  var postTitle = document.createElement('h3');
   postTitle.innerHTML = post["photo-caption"];
   postNode.appendChild(postTitle);
 
