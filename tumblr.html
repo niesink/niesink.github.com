@@ -16,6 +16,7 @@ body{
 
 .card{
   padding:20px;
+  padding-bottom: 50px;
   background-color:white;
   margin-top:20px;
   box-shadow: 0px 5px 5px #ddd;
@@ -40,11 +41,23 @@ body{
   padding:0;
   margin:0;
 }
+
+.timestamp{
+  float: right;
+  padding: 5px;
+  padding-right: 20px;
+  margin-top: 9px;
+  margin-right: -21px;
+  border: 1px solid #ccc;
+  border-right: none;
+}
 </style>
 <body>
 <ul id="posts">
 </ul>
 <script type="text/javascript">
+var dagen = ["zondag","maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
+var maanden = ["januari","februari", "maart", "april", "mei", "juni", "juli", "augustus","september","oktober","november","december"];
 tumblr_api_read.posts.forEach(function(post){
 
   var cardNode = document.createElement('div');
@@ -64,10 +77,24 @@ tumblr_api_read.posts.forEach(function(post){
 
   var postTitle = document.createElement('div');
   postTitle.innerHTML = post["photo-caption"];
+
   cardNode.appendChild(postTitle);
 
-
   cardNode.appendChild(postNode);
+
+  var datum = new Date(post["unix-timestamp"]*1000);
+
+  var timestamp = document.createElement('div');
+  timestamp.className='timestamp';
+  var minutes = "";
+  if(datum.getMinutes()<10){
+    minutes = "0"+datum.getMinutes();
+  }else{
+    minutes = datum.getMinutes();
+  }
+  timestamp.innerHTML = dagen[datum.getDay()]+" "+datum.getDate()+" "+maanden[datum.getMonth()]+" "+datum.getHours()+":"+minutes;
+  cardNode.appendChild(timestamp);
+
   document.querySelector('#posts').appendChild(cardNode);
 });
 </script>
