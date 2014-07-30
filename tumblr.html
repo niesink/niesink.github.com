@@ -11,25 +11,32 @@
 }
 body{
   font-family: RobotoDraft, sans-serif;
+  background-color:rgba(240,240,240,1);
 }
 
-#posts>div{
+.card{
+  padding:20px;
+  background-color:white;
+  margin-top:20px;
+  box-shadow: 0px 5px 5px #ddd;
+}
+
+.post{
   background-size: contain;
   background-repeat: no-repeat;
   width: 100%;
   height:0;
-  background-size:cover;
-  margin-bottom:2em;
+  background-size:cover
 }
-#posts>div>div{
+.post>div{
   font-size:150%;
   margin-top:-3em;
   padding-left:1em;
   padding-right:1em;
   height:3em;
-  background: linear-gradient(to bottom, rgba(250, 250, 250,0.8) 0%,rgba(250, 250, 250,0.8) 80%,rgba(250, 250, 250,1) 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.8) 80%,rgba(255,255,255,1) 100%);
 }
-#posts>div>div p{
+.post>div p{
   padding:0;
   margin:0;
 }
@@ -40,7 +47,11 @@ body{
 <script type="text/javascript">
 tumblr_api_read.posts.forEach(function(post){
 
+  var cardNode = document.createElement('div');
+  cardNode.className = 'card';
+
   var postNode = document.createElement('div');
+  postNode.className = 'post';
 
   var imgSrc = post["photo-url-"+post.width];
   if(imgSrc===undefined){
@@ -53,9 +64,11 @@ tumblr_api_read.posts.forEach(function(post){
 
   var postTitle = document.createElement('div');
   postTitle.innerHTML = post["photo-caption"];
-  postNode.appendChild(postTitle);
+  cardNode.appendChild(postTitle);
 
-  document.querySelector('#posts').appendChild(postNode);
+
+  cardNode.appendChild(postNode);
+  document.querySelector('#posts').appendChild(cardNode);
 });
 </script>
 </body>
