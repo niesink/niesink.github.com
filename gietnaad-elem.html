@@ -99,7 +99,7 @@
                 <section id="live">
                 <core-scroll-header-panel cross-fade condenses headerheight="64" id="core_scroll_header_panel">
                     <core-toolbar id="core_toolbar">
-                      <core-icon-button icon="menu" id="menu_button" onclick="var parent = this.parentNode; while(parent.tagName!=='CORE-DRAWER-PANEL'){parent=parent.parentNode;}console.log(parent);parent.togglePanel();"></core-icon-button>
+                      <core-icon-button icon="menu" id="menu_button" onclick="console.log(drawerPanel); var parent = this.parentNode; while(parent.tagName!=='CORE-DRAWER-PANEL'){parent=parent.parentNode;}console.log(parent);parent.togglePanel();"></core-icon-button>
                       <div id="div" flex></div>
                       <div id="div1" class="bottom indent">Gietnaad Positioning System</div>
                     </core-toolbar>
@@ -136,13 +136,13 @@
       <script> 
   Polymer({});
   
-  
+  drawerPanel = document.getElementById('core_drawer_panel');
   document.addEventListener('polymer-ready', function() {
-    //var navicon = document.getElementById('menu_button');
-    //var drawerPanel = document.getElementById('core_drawer_panel');
-    //navicon.addEventListener('click', function() {
-    //  drawerPanel.togglePanel();
-    //});
+    var navicon = document.getElementById('menu_button');
+    //drawerPanel = document.getElementById('core_drawer_panel');
+    navicon.addEventListener('click', function() {
+     drawerPanel.togglePanel();
+    });
   });
   
   </script>
