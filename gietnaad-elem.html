@@ -69,11 +69,15 @@
         background-image: url( http://i.imgur.com/ROIUdc4.jpg);
         background-position: 50% -575px;
       }
-     section#livekaart, section#songfestival,section#timeline{
+      section#streetparade14 core-toolbar{
+        background-image: url( http://i.imgur.com/ROIUdc4.jpg);
+        background-position: 50% -575px;
+      }
+     section#livekaart, section#songfestival,section#timeline, section#streetparade14section{
           height:100%;
           overflow: hidden;
       }
-      #livekaart>iframe, #songfestival>iframe,#timeline>iframe{
+      #livekaart>iframe, #songfestival>iframe,#timeline>iframe, #streetparade14section>iframe{
           height:100%;
           width: 100%;
           border:none;
@@ -119,6 +123,18 @@
                   </section>
                   </core-scroll-header-panel>
                 </section>
+                <section id="streetparade14">
+                <core-scroll-header-panel cross-fade condenses headerheight="64" id="core_scroll_header_panel">
+                    <core-toolbar id="core_toolbar">
+                      <core-icon-button icon="menu" id="menu_button" onclick="var parent = this.parentNode; while(parent.tagName!=='CORE-DRAWER-PANEL'){parent=parent.parentNode;}parent.togglePanel();"></core-icon-button>
+                      <div id="div" flex></div>
+                      <div id="div1" class="bottom indent">Gietnaad goes eurovision</div>
+                    </core-toolbar>
+                    <section id="streetparade14section" content >
+                  <iframe id="streetparade14_iframe" src="http://niesink.github.io/streetparade2014.html" ></iframe>
+                  </section>
+                  </core-scroll-header-panel>
+                </section>
               </core-animated-pages>
             </section>
             <section id="section" drawer>
@@ -127,6 +143,7 @@
                 <core-item label="Live" icon="language" id="core_item2" horizontal center layout active></core-item>
                 <core-submenu icon="history" label="Routes">               
                     <core-item label="Eurovision '14" icon="history" id="core_item3" horizontal center layout></core-item>
+                    <core-item label="Streetparade '14" icon="history" id="core_item4" horizontal center layout></core-item>
                 </core-submenu>
               </core-menu>
             </section>
