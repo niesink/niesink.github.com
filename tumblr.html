@@ -7,7 +7,7 @@
   list-style-type:none;
   margin:0;
   padding:0;
-  max-width:1000px;
+  max-width:550px;
 }
 body{
   font-family: RobotoDraft, sans-serif;
@@ -66,10 +66,7 @@ tumblr_api_read.posts.forEach(function(post){
   var postNode = document.createElement('div');
   postNode.className = 'post';
 
-  var imgSrc = post["photo-url-"+post.width];
-  if(imgSrc===undefined){
-    imgSrc = post["photo-url-500"];
-  }
+  var imgSrc = post["photo-url-500"];
   postNode.style.backgroundImage="url('"+imgSrc+"')";
 
   var paddingTop = post.height * 100 / post.width;
