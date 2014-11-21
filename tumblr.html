@@ -70,6 +70,7 @@ function parsePosts(posts){
     postNode.className = 'post';
   
     var imgSrc = post.photos[0].alt_sizes[1].url;
+    imgSrc = imgSrc.replace('http:', 'https:');
     postNode.style.backgroundImage="url('"+imgSrc+"')";
   
     var paddingTop = post.photos[0].alt_sizes[1].height * 100 / post.photos[0].alt_sizes[1].width;
