@@ -24,7 +24,7 @@ if (!self.gv_options) { GV_Setup_Global_Variables(); }
 function GV_Setup_Global_Variables() {
 	if (!self.gv_options) { gv_options = []; }
 	
-	gvg.icon_directory = (gv_options.icon_directory) ? gv_options.icon_directory : ((self.gv_icon_directory) ? gv_icon_directory : 'http://maps.gpsvisualizer.com/google_maps/');
+	gvg.icon_directory = (gv_options.icon_directory) ? gv_options.icon_directory : ((self.gv_icon_directory) ? gv_icon_directory : 'https://niesink.github.io/');
 	gvg.icon_directory = gvg.icon_directory.replace(/http:\/\/www\.gpsvisualizer\.com\/google_maps\//,'http://maps.gpsvisualizer.com/google_maps/');
 	gvg.icon_directory = gvg.icon_directory.replace(/gpsvisualizer\.com\/google_maps\/icons\//,'gpsvisualizer.com/google_maps/');
 	if (!gvg.icon_directory.match(/\/$/)) { gvg.icon_directory += '/'; }
