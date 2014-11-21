@@ -1,4 +1,4 @@
-<html><head><base target="_parent" /><script type="text/javascript" src="http://gietnaad.tumblr.com/api/read/json?num=100"></script></head>
+<html><head><base target="_parent" /></head>
 <style>
 #posts img{
   width:100%;
@@ -55,45 +55,50 @@ body{
 <body>
 <ul id="posts">
 </ul>
+
+
 <script type="text/javascript">
 var dagen = ["zondag","maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
 var maanden = ["januari","februari", "maart", "april", "mei", "juni", "juli", "augustus","september","oktober","november","december"];
-tumblr_api_read.posts.forEach(function(post){
 
-  var cardNode = document.createElement('div');
-  cardNode.className = 'card';
-
-  var postNode = document.createElement('div');
-  postNode.className = 'post';
-
-  var imgSrc = post["photo-url-500"];
-  postNode.style.backgroundImage="url('"+imgSrc+"')";
-
-  var paddingTop = post.height * 100 / post.width;
-  postNode.style.paddingTop= paddingTop+"%";
-
-  var postTitle = document.createElement('div');
-  postTitle.innerHTML = post["photo-caption"];
-
-  cardNode.appendChild(postTitle);
-
-  cardNode.appendChild(postNode);
-
-  var datum = new Date(post["unix-timestamp"]*1000);
-
-  var timestamp = document.createElement('div');
-  timestamp.className='timestamp';
-  var minutes = "";
-  if(datum.getMinutes()<10){
-    minutes = "0"+datum.getMinutes();
-  }else{
-    minutes = datum.getMinutes();
-  }
-  timestamp.innerHTML = dagen[datum.getDay()]+" "+datum.getDate()+" "+maanden[datum.getMonth()]+" "+datum.getHours()+":"+minutes;
-  cardNode.appendChild(timestamp);
-
-  document.querySelector('#posts').appendChild(cardNode);
-});
+function parsePosts(posts){
+  posts.response.posts.forEach(function(post){
+    var cardNode = document.createElement('div');
+    cardNode.className = 'card';
+  
+    var postNode = document.createElement('div');
+    postNode.className = 'post';
+  
+    var imgSrc = post.photos.altsizes[1].url;
+    postNode.style.backgroundImage="url('"+imgSrc+"')";
+  
+    var paddingTop = post.photos.altsizes[1].height * 100 / post.photos.altsizes[1].width;
+    postNode.style.paddingTop= paddingTop+"%";
+  
+    var postTitle = document.createElement('div');
+    postTitle.innerHTML = post.caption;
+  
+    cardNode.appendChild(postTitle);
+  
+    cardNode.appendChild(postNode);
+  
+    var datum = new Date(post.timestamp*1000);
+  
+    var timestamp = document.createElement('div');
+    timestamp.className='timestamp';
+    var minutes = "";
+    if(datum.getMinutes()<10){
+      minutes = "0"+datum.getMinutes();
+    }else{
+      minutes = datum.getMinutes();
+    }
+    timestamp.innerHTML = dagen[datum.getDay()]+" "+datum.getDate()+" "+maanden[datum.getMonth()]+" "+datum.getHours()+":"+minutes;
+    cardNode.appendChild(timestamp);
+  
+    document.querySelector('#posts').appendChild(cardNode);
+  });
+}
 </script>
+<script type="text/javascript" src="https://api.tumblr.com/v2/blog/gietnaad.tumblr.com/posts/?api_key=Txl6eOFbtlJcEbKCx4JaBHnN04BUeDN8An6siFq6kvrRLEmuFo&dataType=jsonp&jsonp=parsePosts"></script>
 </body>
 </html>
