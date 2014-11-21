@@ -69,10 +69,10 @@ function parsePosts(posts){
     var postNode = document.createElement('div');
     postNode.className = 'post';
   
-    var imgSrc = post.photos.alt_sizes[1].url;
+    var imgSrc = post.photos[0].alt_sizes[1].url;
     postNode.style.backgroundImage="url('"+imgSrc+"')";
   
-    var paddingTop = post.photos.alt_sizes[1].height * 100 / post.photos.alt_sizes[1].width;
+    var paddingTop = post.photos[0].alt_sizes[1].height * 100 / post.photos[0].alt_sizes[1].width;
     postNode.style.paddingTop= paddingTop+"%";
   
     var postTitle = document.createElement('div');
