@@ -6,8 +6,16 @@
  <link rel="icon" sizes="192x192" href="gietnaad_logo.png">
  <link rel="manifest" href="manifest.json">
 <link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
-<script>if (window.location.protocol != "https:")
-    window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);</script>
+<script>
+if (window.location.protocol != "https:")
+  window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);</script>
+ 
+navigator.serviceWorker.register('worker.js').then(function(reg) {
+  console.log('◕‿◕', reg);
+}, function(err) {
+  console.log('ಠ_ಠ', err);
+});
+    
 <script src="app/bower_components/platform/platform.js"></script>
 <link rel="import" href="gietnaad-elem.html">
 <style> 
