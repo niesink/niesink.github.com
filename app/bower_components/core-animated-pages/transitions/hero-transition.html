@@ -35,6 +35,62 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </core-style>
 
 
+<!--
+
+`hero-transition` transforms two elements in different pages such that they appear
+to be shared across the pages.
+
+Example:
+
+    <core-animated-pages transition="hero-transition">
+      <section layout horizontal>
+        <div id="div1" flex></div>
+        <div id="div2" flex hero-id="shared" hero></div>
+      </section>
+      <section>
+      <section layout horizontal>
+        <div id="div3" flex hero-id="shared" hero></div>
+        <div id="div4" flex></div>
+      </section>
+      </section>
+    </core-animated-pages>
+
+In the above example, the elements `#div2` and `#div3` shares the same `hero-id`
+attribute and a single element appears to translate and scale smoothly between
+the two positions during a page transition.
+
+Both elements from the source and destination pages must share the same `hero-id`
+and must both contain the `hero` attribute to trigger the transition. The separate
+`hero` attribute allows you to use binding to configure the transition:
+
+Example:
+
+    <core-animated-pages transition="hero-transition">
+      <section layout horizontal>
+        <div id="div1" flex hero-id="shared" hero?="{{selected == 0}}"></div>
+        <div id="div2" flex hero-id="shared" hero?="{{selected == 1}}"></div>
+      </section>
+      <section>
+      <section layout horizontal>
+        <div id="div3" flex hero-id="shared" hero></div>
+      </section>
+      </section>
+    </core-animated-pages>
+
+In the above example, either `#div1` or `#div2` scales to `#div3` during a page transition,
+depending on the value of `selected`.
+
+Because it is common to share elements with different `border-radius` values, by default
+this transition will also animate the `border-radius` property.
+
+You can configure the duration of the hero transition with the global variable
+`CoreStyle.g.transitions.heroDuration`.
+
+@class hero-transition
+@extends core-transition-pages
+@status beta
+@homepage github.io
+-->
 <polymer-element name="hero-transition" extends="core-transition-pages">
 <script>
 (function() {
@@ -70,7 +126,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         h.h1.style[TRANSITION_NAME] = wt.join(', ');
         h.h1.style.borderRadius = h.r1;
-        h.h1.style[TRANSFORM_NAME] = 'none';
+        h.h1.style[TRANSFORM_NAME] = '';
       });
 
       this.super(arguments);
@@ -162,14 +218,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // carefully look into ::shadow with polyfill specific hack
     findInShadows: function(node, selector) {
       return node.querySelector(selector) || (hasShadowDOMPolyfill ? 
-          Platform.queryAllShadows(node, selector) :
+          queryAllShadows(node, selector) :
           node.querySelector('::shadow ' + selector));
     },
 
     findAllInShadows: function(node, selector) {
       if (hasShadowDOMPolyfill) {
         var nodes = node.querySelectorAll(selector).array();
-        var shadowNodes = Platform.queryAllShadows(node, selector, true);
+        var shadowNodes = queryAllShadows(node, selector, true);
         return nodes.concat(shadowNodes);
       } else {
         return node.querySelectorAll(selector).array().concat(node.shadowRoot ? node.shadowRoot.querySelectorAll(selector).array() : []);
@@ -180,8 +236,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       this.super(arguments);
       if (scope._heroes) {
         scope._heroes.forEach(function(h) {
-          h.h1.style[TRANSITION_NAME] = null;
-          h.h1.style[TRANSFORM_NAME] = null;
+          h.h1.style[TRANSITION_NAME] = '';
+          h.h1.style[TRANSFORM_NAME] = '';
         });
         scope._heroes = [];
       }
@@ -203,6 +259,63 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
 
   });
+
+  
+  // utility method for searching through shadowRoots.
+  function queryShadow(node, selector) {
+    var m, el = node.firstElementChild;
+    var shadows, sr, i;
+    shadows = [];
+    sr = node.shadowRoot;
+    while(sr) {
+      shadows.push(sr);
+      sr = sr.olderShadowRoot;
+    }
+    for(i = shadows.length - 1; i >= 0; i--) {
+      m = shadows[i].querySelector(selector);
+      if (m) {
+        return m;
+      }
+    }
+    while(el) {
+      m = queryShadow(el, selector);
+      if (m) {
+        return m;
+      }
+      el = el.nextElementSibling;
+    }
+    return null;
+  }
+
+  function _queryAllShadows(node, selector, results) {
+    var el = node.firstElementChild;
+    var temp, sr, shadows, i, j;
+    shadows = [];
+    sr = node.shadowRoot;
+    while(sr) {
+      shadows.push(sr);
+      sr = sr.olderShadowRoot;
+    }
+    for (i = shadows.length - 1; i >= 0; i--) {
+      temp = shadows[i].querySelectorAll(selector);
+      for(j = 0; j < temp.length; j++) {
+        results.push(temp[j]);
+      }
+    }
+    while (el) {
+      _queryAllShadows(el, selector, results);
+      el = el.nextElementSibling;
+    }
+    return results;
+  }
+
+  queryAllShadows = function(node, selector, all) {
+    if (all) {
+      return _queryAllShadows(node, selector, []);
+    } else {
+      return queryShadow(node, selector);
+    }
+  };
 
 })();
 </script>
