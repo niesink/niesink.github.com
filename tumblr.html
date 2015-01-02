@@ -51,40 +51,65 @@ body{
   border: 1px solid #ccc;
   border-right: none;
 }
+.caption>p{
+  margin-top: 0px;
+}
+
+.button-container{
+  max-width:550px;
+}
+#meer-button{
+  width: 120px;
+  padding: 10px;
+  text-align:center;
+  margin:20 auto;
+}
+
+#meer-button:hover{
+  cursor:pointer;
+  background-color:lightgrey;
+}
 </style>
 <body>
 <ul id="posts">
 </ul>
-
+<div class="button-container">
+  <div class="card" id="meer-button">Meer...</div>
+</div>
 
 <script type="text/javascript">
 var dagen = ["zondag","maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
 var maanden = ["januari","februari", "maart", "april", "mei", "juni", "juli", "augustus","september","oktober","november","december"];
+var postIndex = 0;
+var batchSize = 20;
+var totalPosts = 10000;
 
 function parsePosts(posts){
+  totalPosts = posts.response.total_posts;
   posts.response.posts.forEach(function(post){
     var cardNode = document.createElement('div');
     cardNode.className = 'card';
-  
+
     var postNode = document.createElement('div');
     postNode.className = 'post';
-  
+
     var imgSrc = post.photos[0].alt_sizes[1].url;
     imgSrc = imgSrc.replace('http:', 'https:');
     postNode.style.backgroundImage="url('"+imgSrc+"')";
-  
+
     var paddingTop = post.photos[0].alt_sizes[1].height * 100 / post.photos[0].alt_sizes[1].width;
     postNode.style.paddingTop= paddingTop+"%";
-  
+
     var postTitle = document.createElement('div');
+    postTitle.className = 'caption';
     postTitle.innerHTML = post.caption;
-  
+
     cardNode.appendChild(postTitle);
-  
+
     cardNode.appendChild(postNode);
-  
+
     var datum = new Date(post.timestamp*1000);
-  
+
     var timestamp = document.createElement('div');
     timestamp.className='timestamp';
     var minutes = "";
@@ -95,11 +120,22 @@ function parsePosts(posts){
     }
     timestamp.innerHTML = dagen[datum.getDay()]+" "+datum.getDate()+" "+maanden[datum.getMonth()]+" "+datum.getHours()+":"+minutes;
     cardNode.appendChild(timestamp);
-  
+
     document.querySelector('#posts').appendChild(cardNode);
   });
 }
 </script>
 <script type="text/javascript" src="https://api.tumblr.com/v2/blog/gietnaad.tumblr.com/posts/?api_key=Txl6eOFbtlJcEbKCx4JaBHnN04BUeDN8An6siFq6kvrRLEmuFo&dataType=jsonp&jsonp=parsePosts"></script>
+<script type="text/javascript">
+  document.getElementById('meer-button').addEventListener("click", function(){
+    postIndex = postIndex + batchSize;
+    if(postIndex+batchSize >= totalPosts){
+      document.getElementById('meer-button').style.visibility="hidden";
+    }
+    var script = document.createElement('script');
+    script.src = "https://api.tumblr.com/v2/blog/gietnaad.tumblr.com/posts/?api_key=Txl6eOFbtlJcEbKCx4JaBHnN04BUeDN8An6siFq6kvrRLEmuFo&dataType=jsonp&jsonp=parsePosts&limit="+batchSize+"&offset="+postIndex;
+    document.getElementsByTagName('body')[0].appendChild(script);
+  });
+</script>
 </body>
 </html>
