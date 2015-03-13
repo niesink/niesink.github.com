@@ -48,7 +48,6 @@ gietnaad-elem{
 
 </script>
 <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
-<script src="http://jsconsole.com/remote.js?B97F2148-3328-41B0-B7F4-BBE04BACF386"></script>
 <script>
 pushEnabled = false;
 togglePush = function(){
@@ -72,14 +71,14 @@ window.addEventListener('load', function() {
     navigator.serviceWorker.register('/worker.js')
     .then(initialiseState);
   } else {
-    console.log('Service workers aren\'t supported in this browser.');
+    console.warn('Service workers aren\'t supported in this browser.');
   }
 });
 
 function initialiseState() {
   // Are Notifications supported in the service worker?
   if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-    console.log('Notifications aren\'t supported.');
+    console.warn('Notifications aren\'t supported.');
     return;
   }
 
@@ -87,13 +86,13 @@ function initialiseState() {
   // If its denied, it's a permanent block until the
   // user changes the permission
   if (Notification.permission === 'denied') {
-    console.log('The user has blocked notifications.');
+    console.warn('The user has blocked notifications.');
     return;
   }
 
   // Check if push messaging is supported
   if (!('PushManager' in window)) {
-    console.log('Push messaging isn\'t supported.');
+    console.warn('Push messaging isn\'t supported.');
     return;
   }
 
@@ -111,14 +110,14 @@ function initialiseState() {
       }
 
       // Keep your server in sync with the latest subscriptionId
-      console.log(subscription.subscriptionId+''+subscription.endpoint);
+      console.warn(subscription.subscriptionId+''+subscription.endpoint);
 
       // Set your UI to show they have subscribed for
       // push messages
       pushEnabled = true;
     })
     .catch(function(err) {
-      console.log('Error during getSubscription()', err);
+      console.warn('Error during getSubscription()', err);
     });
   });
 };
@@ -135,7 +134,7 @@ function subscribe() {
       // The subscription was successful
       pushEnabled = true;
       var myFirebaseRef = new Firebase("https://amber-fire-2637.firebaseio.com/");
-      console.log(subscription.subscriptionId+' '+subscription.endpoint);
+      console.warn(subscription.subscriptionId+' '+subscription.endpoint);
       // alert(subscription.subscriptionId+' '+subscription.endpoint);
       myFirebaseRef.set({
         subscriptionId: subscription.subscriptionId,
@@ -149,14 +148,14 @@ function subscribe() {
         // means we failed to subscribe and the user will need
         // to manually change the notification permission to
         // subscribe to push messages
-        console.log('Permission for Notifications was denied');
+        console.warn('Permission for Notifications was denied');
         // pushButton.disabled = true;
       } else {
         var myFirebaseRef = new Firebase("https://amber-fire-2637.firebaseio.com/");
         // A problem occurred with the subscription; common reasons
         // include network errors, and lacking gcm_sender_id and/or
         // gcm_user_visible_only in the manifest.
-        console.log('Unable to subscribe to push.', e);
+        console.error('Unable to subscribe to push.', e);
         // pushButton.disabled = false;
         // pushButton.textContent = 'Enable Push Messages';
         myFirebaseRef.set({
