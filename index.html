@@ -50,6 +50,7 @@ gietnaad-elem{
 <script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
 <script>
 pushEnabled = false;
+displayButton = false;
 togglePush = function(){
 
   if(!pushEnabled){
@@ -67,9 +68,9 @@ window.addEventListener('load', function() {
 
   // Check that service workers are supported, if so, progressively
   // enhance and add push messaging support, otherwise continue without it.
+
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/worker.js')
-    .then(initialiseState);
+    navigator.serviceWorker.register('/worker.js').then(initialiseState);
   } else {
     console.warn('Service workers aren\'t supported in this browser.');
   }
@@ -96,16 +97,24 @@ function initialiseState() {
     return;
   }
 
+  document.addEventListener('enablebutton', function (e) {console.log('luid en duidelijk');}, false)
+
   navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
     // Do we already have a push message subscription?
     serviceWorkerRegistration.pushManager.getSubscription()
     .then(function(subscription) {
       // Enable any UI which subscribes / unsubscribes from
       // push messages.
-
+      console.log(subscription);
       if (!subscription) {
         // We aren't subscribed to push, so set UI
         // to allow the user to enable push
+        // var shadowRoot = document.querySelector('gietnaad-elem').shadowRoot;
+        // console.log(document.querySelector('gietnaad-elem'));
+        // console.log(shadowRoot);
+        // console.log(shadowRoot.querySelector('core-drawer-panel'));
+        // document.querySelector('gietnaad-elem /deep/ core-drawer-panel /deep/ #pushbutton').style.display=block;
+        subscribe();
         return;
       }
 
