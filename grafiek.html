@@ -5,34 +5,20 @@
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <script>
-$(function () {
+$(function() {
     $('#container').highcharts({
         chart: {
             type: 'spline'
         },
         title: {
-            text: 'Monthly Average Temperature'
-        },
-        subtitle: {
-            text: 'Source: WorldClimate.com'
-        },
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-        yAxis: {
-            title: {
-                text: 'Temperature'
-            },
-            labels: {
-                formatter: function () {
-                    return this.value + '°';
-                }
-            }
+            text: 'Mantis'
         },
         tooltip: {
             crosshairs: true,
             shared: true
+        },
+        xAxis: {
+            type: 'datetime'
         },
         plotOptions: {
             spline: {
@@ -44,28 +30,90 @@ $(function () {
             }
         },
         series: [{
-            name: 'Tokyo',
-            marker: {
-                symbol: 'square'
-            },
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, {
-                y: 26.5,
-                marker: {
-                    symbol: 'url(http://www.highcharts.com/demo/gfx/sun.png)'
-                }
-            }, 23.3, 18.3, 13.9, 9.6]
+            name: 'Bugs',
+            pointInterval: 24 * 3600 * 1000,
+            pointStart: Date.UTC(2014, 4, 26),
+            data: [260,
+                266,
+                277,
+                277,
+                277,
+                277,
+                277,
+                273,
+                268,
+                267,
+                258,
+                260,
+                260,
+                260,
+                260,
+                268,
+                269,
+                260,
+                249,
+                249,
+                249,
+                240,
+                246
+            ]
 
         }, {
-            name: 'London',
-            marker: {
-                symbol: 'diamond'
-            },
-            data: [{
-                y: 3.9,
-                marker: {
-                    symbol: 'url(http://www.highcharts.com/demo/gfx/snow.png)'
-                }
-            }, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+            name: 'Wensen',
+            pointInterval: 24 * 3600 * 1000,
+            pointStart: Date.UTC(2014, 4, 26),
+            data: [704,
+                707,
+                712,
+                712,
+                712,
+                712,
+                712,
+                711,
+                717,
+                717,
+                720,
+                710,
+                710,
+                710,
+                710,
+                709,
+                714,
+                715,
+                717,
+                717,
+                717,
+                717,
+                721
+            ]
+        }, {
+            name: 'Totaal',
+            pointInterval: 24 * 3600 * 1000,
+            pointStart: Date.UTC(2014, 4, 26),
+            data: [965,
+                974,
+                989,
+                989,
+                989,
+                989,
+                989,
+                985,
+                986,
+                984,
+                978,
+                970,
+                970,
+                970,
+                970,
+                977,
+                983,
+                975,
+                966,
+                966,
+                966,
+                957,
+                967
+            ]
         }]
     });
 });
