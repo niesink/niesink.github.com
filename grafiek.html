@@ -1,14 +1,8 @@
-<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<script src="http://code.highcharts.com/modules/exporting.js"></script>
-
-<div id="container" style="width: 100%; height: 100%; margin: 0 auto"></div>
-
-<script>
 $(function() {
     $('#container').highcharts({
         chart: {
-            type: 'spline'
+            type: 'spline',
+            zoomType: 'x'
         },
         title: {
             text: 'Mantis'
@@ -18,7 +12,39 @@ $(function() {
             shared: true
         },
         xAxis: {
-            type: 'datetime'
+            type: 'datetime',
+            plotBands: [{
+                from: Date.UTC(2014, 4, 27),
+                to: Date.UTC(2014, 4, 30),
+                color: '#FAFAFA',
+                label: {
+                    text: '4.6',
+                    style: {
+                        color: 'darkgrey'
+                    }
+                }
+            }, {
+                from: Date.UTC(2014, 4, 31),
+                to: Date.UTC(2014, 5, 5),
+                color: '#FFF',
+                label: {
+                    text: '4.7',
+                    style: {
+                        color: 'darkgrey'
+                    }
+                }
+            }, {
+                from: Date.UTC(2014, 5, 6),
+                to: Date.UTC(2014, 5, 17),
+                color: '#FAFAFA',
+                label: {
+                    text: '4.8',
+                    style: {
+                        color: 'darkgrey'
+                    }
+                }
+            }]
+
         },
         plotOptions: {
             spline: {
@@ -117,4 +143,3 @@ $(function() {
         }]
     });
 });
-</script>
