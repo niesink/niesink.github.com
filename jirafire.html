@@ -15,9 +15,7 @@
 
 <script>
 function clearBg(){
-<script>
-function clearBg(){
-console.log('clearrr');
+
 document.querySelector('iframe#jira').contentWindow.document.body.style.backgroundColor = 'transparent';
 document.querySelector('iframe#jira').contentWindow.document.body.style.backgroundImage = 'none';
 
@@ -47,7 +45,7 @@ document.querySelector('iframe#jira').contentWindow.document.querySelector('#das
     <iframe height="100%" width="100%" src="https://www.youtube.com/embed/x6pJfg38qaU?autoplay=1"></iframe>
   </div>
   <div>
-    <iframe id="jira" height="100%" width="100%" src="https://jira.topicus.nl/secure/Dashboard.jspa" allowtransparency="true" onload="clearBg();"></iframe>
+    <iframe id="jira" height="100%" width="100%" src="https://jira.topicus.nl/secure/Dashboard.jspa" allowtransparency="true" onload="setTimeout(clearBg, 10000);setInterval(clearBg, 60000);"></iframe>
   </div>
 </body>
 </html>
