@@ -1,5 +1,6 @@
 <html>
   <body>
+    <script>window.addEventListener('message', function(e) {console.log(e.data); window.parentUrl = e.data;});</script>
     <button onclick="parent.postMessage('testing', window.name)">
       test message
     </button>
