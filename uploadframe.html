@@ -1,38 +1,131 @@
 <html>
-  <head>
+
+<head>
     <script>
-      window.addEventListener('message', function(e) {
-        console.log('received! '+e.data); 
-        window.parentUrl = e.data;
-      });
-      
-      var postBackToSOMtoday = function(filename, downloadurl){
-        	parent.postMessage('somtoday-filename:'+filename+';somtoday-downloadurl:'+downloadurl, window.parentUrl);
-      }
-      
-      var successfulOnedriveOpen = function(response){
-  			var filename = response.value[0].name;
-  			var downloadurl = response.value[0]['@microsoft.graph.downloadUrl'];
-  		  postBackToSOMtoday(filename, downloadurl);
-  			document.getElementById('onedriveChosen').innerHTML=filename;
-  		};
-  		
+        window.addEventListener('message', function(e) {
+            console.log('received! ' + e.data);
+            window.parentUrl = e.data;
+        });
+
+        var postBackToSOMtoday = function(filename, downloadurl) {
+            parent.postMessage('somtoday-filename:' + filename + ';somtoday-downloadurl:' + downloadurl, window.parentUrl);
+        }
+
+        var successfulOnedriveOpen = function(response) {
+            var filename = response.value[0].name;
+            var downloadurl = response.value[0]['@microsoft.graph.downloadUrl'];
+            postBackToSOMtoday(filename, downloadurl);
+            document.getElementById('onedriveChosen').innerHTML = filename;
+        };
     </script>
+    <script type="text/javascript" src="https://www.dropbox.com/static/api/1/dropins.js" id="dropboxjs" data-app-key="rjr3bc98wgtl49p"></script>
+	  <script type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+	  <script type="text/javascript" src="https://www.google.com/jsapi?key=AIzaSyDi4WPR1Xcww9yhug-FZ6-XSWKQd3cUyKQ"></script>
     <script type="text/javascript" src="https://js.live.net/v7.0/OneDrive.js"></script>
-  </head>
-  <body>
+</head>
+
+<body>
     <img width="90" height="90" title="" alt="" src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAABkAAD/4QMtaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjMtYzAxMSA2Ni4xNDU2NjEsIDIwMTIvMDIvMDYtMTQ6NTY6MjcgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzYgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RTIxNTlCQTgzODAxMTFFMzg0NEVBQUVFNjE1RUNBOEYiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RTIxNTlCQTkzODAxMTFFMzg0NEVBQUVFNjE1RUNBOEYiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5MEZFRkU3RjM4MDExMUUzODQ0RUFBRUU2MTVFQ0E4RiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5MEZFRkU4MDM4MDExMUUzODQ0RUFBRUU2MTVFQ0E4RiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv/uAA5BZG9iZQBkwAAAAAH/2wCEAAEBAQEBAQEBAQEBAQEBAQEB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" />
     <button id="onedriveButton">Kies van OneDrive</button>
     <div id="onedriveChosen"></div>
+    <div class="uploadButton dropboxButton"> <input src="images/upload_dropbox.jpg" type="dropbox-chooser" id="db-chooser" name="selected-file"> </div>
+    <div class="uploadButton googleButton"> <input type="button" class="googleDrivePicker left clear" value="Kies van Google Drive" /> </div>
     <script>
-      	document.getElementById('onedriveButton').addEventListener('click', function(){
-  			var odOptions = {
-  		    		clientId: "97cebc83-0a5e-4372-bd01-8ba1891f77be",
-  		    		action: "download",
-  		    		success: successfulOnedriveOpen
-  		    };
-  		    OneDrive.open(odOptions);
-  		});
+        document.getElementById('onedriveButton').addEventListener('click', function() {
+            var odOptions = {
+                clientId: "97cebc83-0a5e-4372-bd01-8ba1891f77be",
+                action: "download",
+                success: successfulOnedriveOpen
+            };
+            OneDrive.open(odOptions);
+        });
+
+        var panel, oauthToken;
+        panel = this;
+
+        // add an event listener to the DropBox Chooser button
+        document.getElementById("db-chooser").addEventListener("DbxChooserSuccess",
+            function(e) {
+                panel.serverCall("externalFileSelected", e.files[0].link, "");
+            }, false);
+
+        function loadPicker() {
+            // Google Picker API for the Google Docs import
+            google.load('picker', '1', {
+                "language": "nl",
+                "callback": function() {
+                    var view = new google.picker.View(google.picker.ViewId.DOCS),
+                        picker = new google.picker.PickerBuilder()
+                        .addView(view)
+                        .setOAuthToken(oauthToken)
+                        .setCallback(function(data) {
+                            if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+                                var doc = data[google.picker.Response.DOCUMENTS][0],
+                                    fileId = doc[google.picker.Document.ID];
+                                gapi.client.load('drive', 'v2', function() {
+                                    var request = gapi.client.drive.files.get({
+                                        'fileId': fileId
+                                    });
+                                    request.execute(function(resp) {
+                                        var url = resp.downloadUrl,
+                                            force_name = resp.title;
+                                        // indien een Google Doc, juiste exportlink gebruiken
+                                        if (!url && resp.exportLinks) {
+                                            if (resp.exportLinks["application/vnd.openxmlformats-officedocument.wordprocessingml.document"]) {
+                                                url = resp.exportLinks["application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+                                                force_name = force_name + '.docx';
+                                            } else if (resp.exportLinks["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]) {
+                                                url = resp.exportLinks["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"];
+                                                force_name = force_name + '.xlsx';
+                                            } else if (resp.exportLinks["application/vnd.openxmlformats-officedocument.presentationml.presentation"]) {
+                                                url = resp.exportLinks["application/vnd.openxmlformats-officedocument.presentationml.presentation"];
+                                                force_name = force_name + '.pptx';
+                                            } else if (resp.exportLinks["image/png"]) {
+                                                url = resp.exportLinks["image/png"];
+                                                force_name = force_name + '.png';
+                                            }
+                                        }
+
+                                        if (!url) {
+                                            alert("Geen ondersteund bestandsformaat.");
+                                        } else {
+                                            url = url + '&access_token=' + gapi.auth.getToken().access_token;
+                                            $('.googleDrivePicker').attr("value", "Google Drive: " + doc[google.picker.Document.NAME]);
+                                            panel.serverCall("externalFileSelected", url, force_name);
+                                        }
+                                    });
+                                });
+                            }
+                        }).build();
+                    picker.setVisible(true);
+                }
+            });
+        }
+
+        $('.googleDrivePicker').click(function() {
+
+            //settings
+            gapi.client.setApiKey('AIzaSyDi4WPR1Xcww9yhug-FZ6-XSWKQd3cUyKQ');
+            var config = {
+                'client_id': '535867819357.apps.googleusercontent.com',
+                'scope': 'https://www.googleapis.com/auth/drive',
+                'response_type': 'token'
+            };
+
+            //authorize -> bestand picker laden
+            if (oauthToken === undefined) {
+                gapi.auth.authorize(config, function(authResult) {
+                    if (!authResult) {
+                        alert('Autorisatie bij Google Drive mislukt.');
+                    } else {
+                        oauthToken = authResult.access_token;
+                    }
+
+                    loadPicker();
+                });
+            }
+        });
     </script>
-  </body>
+</body>
+
 </html>
