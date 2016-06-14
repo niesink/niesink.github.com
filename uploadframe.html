@@ -46,7 +46,7 @@
         // add an event listener to the DropBox Chooser button
         document.getElementById("db-chooser").addEventListener("DbxChooserSuccess",
             function(e) {
-                panel.serverCall("externalFileSelected", e.files[0].link, "");
+            	postBackToSOMtoday("", e.files[0].link);
             }, false);
 
         function loadPicker() {
@@ -91,7 +91,7 @@
                                         } else {
                                             url = url + '&access_token=' + gapi.auth.getToken().access_token;
                                             document.getElementById("googleDrivePicker").setAttribute("value", "Google Drive: " + doc[google.picker.Document.NAME]);
-                                            panel.serverCall("externalFileSelected", url, force_name);
+                                            postBackToSOMtoday(force_name, url);
                                         }
                                     });
                                 });
