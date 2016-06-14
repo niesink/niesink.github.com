@@ -29,7 +29,7 @@
     <button id="onedriveButton">Kies van OneDrive</button>
     <div id="onedriveChosen"></div>
     <div class="uploadButton dropboxButton"> <input src="images/upload_dropbox.jpg" type="dropbox-chooser" id="db-chooser" name="selected-file"> </div>
-    <div class="uploadButton googleButton"> <input type="button" class="googleDrivePicker left clear" value="Kies van Google Drive" /> </div>
+    <div class="uploadButton googleButton"> <input type="button" id="googleDrivePicker" value="Kies van Google Drive" /> </div>
     <script>
         document.getElementById('onedriveButton').addEventListener('click', function() {
             var odOptions = {
@@ -90,7 +90,7 @@
                                             alert("Geen ondersteund bestandsformaat.");
                                         } else {
                                             url = url + '&access_token=' + gapi.auth.getToken().access_token;
-                                            $('.googleDrivePicker').attr("value", "Google Drive: " + doc[google.picker.Document.NAME]);
+                                            document.getElementById("googleDrivePicker").setAttribute("value", "Google Drive: " + doc[google.picker.Document.NAME]);
                                             panel.serverCall("externalFileSelected", url, force_name);
                                         }
                                     });
@@ -102,7 +102,7 @@
             });
         }
 
-        $('.googleDrivePicker').click(function() {
+        document.getElementById("googleDrivePicker").addEventListener('click', function () {
 
             //settings
             gapi.client.setApiKey('AIzaSyDi4WPR1Xcww9yhug-FZ6-XSWKQd3cUyKQ');
