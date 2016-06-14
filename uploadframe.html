@@ -4,7 +4,7 @@
     <script>
         window.addEventListener('message', function(e) {
             console.log('the iframe received ' + e.data);
-            if(e.data.indexOf('somtoday-parenturl:')>0){
+            if(e.data.indexOf('somtoday-parenturl:')>-1){
             	window.parentUrl = e.data.split('somtoday-parenturl:')[1]
             	console.log('the iframe set the parentUrl to' + window.parentUrl);
             }
