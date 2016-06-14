@@ -1,6 +1,29 @@
 <html>
   <body>
-    <script>window.addEventListener('message', function(e) {console.log('received! '+e.data); window.parentUrl = e.data;});</script>
+    <script>
+      window.addEventListener('message', function(e) {
+        console.log('received! '+e.data); 
+        window.parentUrl = e.data;
+      });
+      
+      var successfulOnedriveOpen = function(response){
+  			var filename = response.value[0].name;
+  			var downloadurl = response.value[0]['@microsoft.graph.downloadUrl'];
+  			parent.postMessage('filename:'+filename+';downloadurl:'+downloadurl, window.parentUrl);
+  			
+  			//panel.serverCall("externalFileSelected", downloadurl, filename);
+  			//$('.onedriveChosen').text(filename);
+  		};
+  		
+  		$('.onedriveButton').click(function () {
+  			var odOptions = {
+  		    		clientId: "97cebc83-0a5e-4372-bd01-8ba1891f77be",
+  		    		action: "download",
+  		    		success: successfulOnedriveOpen
+  		    };
+  		    OneDrive.open(odOptions);
+  		});
+    </script>
     <button onclick="console.log(parentUrl);parent.postMessage('testing', window.parentUrl)">
       test message
     </button>
