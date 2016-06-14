@@ -6,14 +6,17 @@
         window.parentUrl = e.data;
       });
       
+      var postBackToSOMtoday = function(filename, downloadurl){
+        	parent.postMessage('somtoday-filename:'+filename+';somtoday-downloadurl:'+downloadurl, window.parentUrl);
+      }
+      
       var successfulOnedriveOpen = function(response){
   			var filename = response.value[0].name;
   			var downloadurl = response.value[0]['@microsoft.graph.downloadUrl'];
-  			parent.postMessage('filename:'+filename+';downloadurl:'+downloadurl, window.parentUrl);
+  		  postBackToSOMtoday(filename, downloadurl);
   			document.getElementById('onedriveChosen').innerHTML=filename;
   		};
   		
-  	
     </script>
     <script type="text/javascript" src="https://js.live.net/v7.0/OneDrive.js"></script>
   </head>
