@@ -15,7 +15,7 @@
   			//$('.onedriveChosen').text(filename);
   		};
   		
-  		$('.onedriveButton').click(function () {
+  		document.getElementById('onedriveButton').addEventListener('click', function(){
   			var odOptions = {
   		    		clientId: "97cebc83-0a5e-4372-bd01-8ba1891f77be",
   		    		action: "download",
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="https://js.live.net/v7.0/OneDrive.js"></script>
   </head>
   <body>
-    <button class="uploadButton onedriveButton">Kies van OneDrive</button>
+    <button id="onedriveButton">Kies van OneDrive</button>
     <button onclick="console.log(parentUrl);parent.postMessage('testing', window.parentUrl)">
       test message
     </button>
