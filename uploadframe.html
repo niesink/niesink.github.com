@@ -1,5 +1,5 @@
 <html>
-  <body>
+  <head>
     <script>
       window.addEventListener('message', function(e) {
         console.log('received! '+e.data); 
@@ -24,6 +24,10 @@
   		    OneDrive.open(odOptions);
   		});
     </script>
+    <script type="text/javascript" src="https://js.live.net/v7.0/OneDrive.js"></script>
+  </head>
+  <body>
+    <button class="uploadButton onedriveButton">Kies van OneDrive</button>
     <button onclick="console.log(parentUrl);parent.postMessage('testing', window.parentUrl)">
       test message
     </button>
