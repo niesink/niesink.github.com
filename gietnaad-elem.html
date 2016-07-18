@@ -77,15 +77,15 @@
         background-image: url( https://i.imgur.com/ROIUdc4.jpg);
         background-position: 50% -575px;
       }
-      section#eurovision15 core-toolbar{
+      section#eurovision15 core-toolbar, section#barrel16 core-toolbar{
         background-image: url( https://i.imgur.com/ROIUdc4.jpg);
         background-position: 50% -575px;
       }
-      section#livekaart, section#songfestival,section#timeline, section#streetparade14section, section#crwinter15section, section#eurovision_wenen{
+      section#livekaart, section#songfestival,section#timeline, section#streetparade14section, section#crwinter15section, section#eurovision_wenen, section#barrel16section{
           height:100%;
           overflow: hidden;
       }
-      #livekaart>iframe, #songfestival>iframe,#timeline>iframe, #streetparade14section>iframe, #crwinter15section>iframe, #eurovision_wenen>iframe{
+      #livekaart>iframe, #songfestival>iframe,#timeline>iframe, #streetparade14section>iframe, #crwinter15section>iframe, #eurovision_wenen>iframe, #barrel16section>iframe{
           height:100%;
           width: 100%;
           border:none;
@@ -167,6 +167,18 @@
                     </section>
                   </core-scroll-header-panel>
                 </section>
+                <section id="barrel16">
+                  <core-scroll-header-panel cross-fade condenses headerheight="64" id="core_scroll_header_panel">
+                    <core-toolbar id="core_toolbar">
+                      <core-icon-button icon="menu" id="menu_button" onclick="var parent = this.parentNode; while(parent.tagName!=='CORE-DRAWER-PANEL'){parent=parent.parentNode;}parent.togglePanel();"></core-icon-button>
+                      <div id="div" flex></div>
+                      <div id="div1" class="bottom indent">Gietnaad goes Barrelchallenge Zomer '16</div>
+                    </core-toolbar>
+                    <section id="barrel16section" content >
+                      <iframe id="kaart_iframe" src="//niesink.github.io/barrel_track.html" ></iframe>
+                    </section>
+                  </core-scroll-header-panel>
+                </section>
               </core-animated-pages>
             </section>
             <section id="section" drawer>
@@ -177,6 +189,7 @@
                 <core-item label="Streetparade '14" icon="history" id="core_item4" horizontal center layout></core-item>
                 <core-item label="Carbage Run Winter '15" icon="history" id="core_item5" horizontal center layout></core-item>
                 <core-item label="Eurovision '15" icon="history" id="core_item6" horizontal center layout></core-item>
+                <core-item label="Barrelchallenge Zomer '16" icon="history" id="core_item7" horizontal center layout></core-item>
               </core-menu>
             </section>
           </core-drawer-panel>
