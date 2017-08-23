@@ -1,1 +1,14 @@
-testing
+<style>
+  div.outer{width:100%}
+  img, input, button{display:block;margin:0 auto;}
+  #ui{margin-top:50px;margin-bottom:50px;}
+  #ui>*{width:200px; padding:10px;}
+  button{margin-top:10px; background-color:lightblue;border: 1px solid darkblue;color: #333;}
+</style>
+<div id="outer">
+  <img id="foto" src="http://i.imgur.com/XKndBgS.jpg">
+  <div id="ui">
+    <input id="antwoord" placeholder="Vul hier het antwoord in..." type="text" >
+    <button onclick="var antwoord = document.getElementById('antwoord').value; if(antwoord.toLowerCase().trim()==='poeder'){document.getElementById('foto').src='http://i.imgur.com/knfoRXE.jpg';this.parentNode.style.display='none';}else{document.getElementById('antwoord').value='';}">Naar de laatste aanwijzing</button>
+  </div>
+</div>
