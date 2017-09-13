@@ -18,7 +18,9 @@
         var openOnedrive = function(){
             var odOptions = {
                 clientId: "f7c4c143-47bf-4ff5-9154-d1d32ceecc5c",
-                action: "download",
+                action: "query",
+                multiSelect: true,
+                advanced: {},
                 success: successfulOnedriveOpen
             };
             OneDrive.open(odOptions);
