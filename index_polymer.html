@@ -1,1 +1,174 @@
 
+<html><head>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+ <meta name="mobile-web-app-capable" content="yes">
+ <meta name="apple-mobile-web-app-capable" content="yes">
+ <meta name="theme-color" content="#6B05E8">
+ <link rel="icon" sizes="192x192" href="gietnaad_logo.png">
+ <link rel="manifest" href="manifest.json">
+ <title>Gietnaad</title>
+<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
+<script>
+if (window.location.protocol != "https:" && window.location.href.indexOf('localhost')==-1 && window.location.href.indexOf('192.168')==-1)
+  window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+</script>
+<script src="app/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
+<link rel="import" href="gietnaad-elem.html">
+<style>
+body{
+      font-family: 'RobotoDraft', sans-serif;
+}
+gietnaad-elem{
+      position:absolute;
+      top:0px;
+      left:0px;
+}
+</style>
+<script>
+ if(navigator.userAgent.match(/(iPad|iPhone|iPod)/g)){
+  window.location.replace('http://niesink.github.io/old.html');
+ }
+</script>
+</head><body>
+<gietnaad-elem>
+    <!--<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/gietnaad" data-widget-id="466185189102583809" data-chrome="noheader nofooter noborders transparent">Tweets van @gietnaad</a>
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+    <script type="text/javascript" src="http://gietnaad.tumblr.com/js"></script>-->
+</gietnaad-elem>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52585339-1', 'auto');
+  ga('send', 'pageview');
+
+
+</script>
+<script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
+<script>
+pushEnabled = false;
+displayButton = false;
+togglePush = function(){
+
+  if(!pushEnabled){
+    subscribe();
+  }else{
+    pushEnabled = !pushEnabled;
+  }
+
+  console.log('pushEnabled: '+pushEnabled);
+}
+isPushEnabled = function(){
+  return pushEnabled;
+}
+window.addEventListener('load', function() {
+
+  // Check that service workers are supported, if so, progressively
+  // enhance and add push messaging support, otherwise continue without it.
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/worker.js').then(initialiseState);
+  } else {
+    console.warn('Service workers aren\'t supported in this browser.');
+  }
+});
+
+function initialiseState() {
+  // Are Notifications supported in the service worker?
+  if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
+    console.warn('Notifications aren\'t supported.');
+    return;
+  }
+
+  // Check the current Notification permission.
+  // If its denied, it's a permanent block until the
+  // user changes the permission
+  if (Notification.permission === 'denied') {
+    console.warn('The user has blocked notifications.');
+    return;
+  }
+
+  // Check if push messaging is supported
+  if (!('PushManager' in window)) {
+    console.warn('Push messaging isn\'t supported.');
+    return;
+  }
+
+  document.addEventListener('enablebutton', function (e) {console.log('luid en duidelijk');}, false)
+
+  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+    // Do we already have a push message subscription?
+    serviceWorkerRegistration.pushManager.getSubscription()
+    .then(function(subscription) {
+      // Enable any UI which subscribes / unsubscribes from
+      // push messages.
+      console.log(subscription);
+      if (!subscription) {
+       // nog even niet automatisch vragen om subscription
+        //subscribe();
+        return;
+      }
+
+      // Keep your server in sync with the latest subscriptionId
+      console.warn(subscription.subscriptionId+''+subscription.endpoint);
+
+      // Set your UI to show they have subscribed for
+      // push messages
+      pushEnabled = true;
+    })
+    .catch(function(err) {
+      console.warn('Error during getSubscription()', err);
+    });
+  });
+};
+
+function subscribe() {
+  // Disable the button so it can't be changed while
+  // we process the permission request
+  // var pushButton = document.querySelector('.js-push-button');
+  // pushButton.disabled = true;
+
+  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
+    serviceWorkerRegistration.pushManager.subscribe()
+    .then(function(subscription) {
+      // The subscription was successful
+      pushEnabled = true;
+      var myFirebaseRef = new Firebase("https://amber-fire-2637.firebaseio.com/");
+      console.warn(subscription.subscriptionId+' '+subscription.endpoint);
+      // alert(subscription.subscriptionId+' '+subscription.endpoint);
+      myFirebaseRef.set({
+        subscriptionId: subscription.subscriptionId,
+        endpoint: subscription.endpoint
+      });
+    })
+    .catch(function(e) {
+
+      if (Notification.permission === 'denied') {
+        // The user denied the notification permission which
+        // means we failed to subscribe and the user will need
+        // to manually change the notification permission to
+        // subscribe to push messages
+        console.warn('Permission for Notifications was denied');
+        // pushButton.disabled = true;
+      } else {
+        var myFirebaseRef = new Firebase("https://amber-fire-2637.firebaseio.com/");
+        // A problem occurred with the subscription; common reasons
+        // include network errors, and lacking gcm_sender_id and/or
+        // gcm_user_visible_only in the manifest.
+        console.error('Unable to subscribe to push.', e);
+        // pushButton.disabled = false;
+        // pushButton.textContent = 'Enable Push Messages';
+        myFirebaseRef.set({
+          subscriptionId: 'Unable to subscribe to push.',
+          endpoint: e
+        });
+      }
+    });
+  });
+}
+</script>
+</body></html>
