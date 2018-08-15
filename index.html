@@ -1,173 +1,141 @@
-<html><head>
- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
- <meta name="mobile-web-app-capable" content="yes">
- <meta name="apple-mobile-web-app-capable" content="yes">
- <meta name="theme-color" content="#6B05E8">
- <link rel="icon" sizes="192x192" href="gietnaad_logo.png">
- <link rel="manifest" href="manifest.json">
- <title>Gietnaad</title>
-<link href="//fonts.googleapis.com/css?family=RobotoDraft:300,400,500|Source+Code+Pro:400,500,700" rel="stylesheet">
-<script>
-if (window.location.protocol != "https:" && window.location.href.indexOf('localhost')==-1 && window.location.href.indexOf('192.168')==-1)
-  window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
-</script>
-<script src="app/bower_components/webcomponentsjs/webcomponents.min.js"></script>
-<script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
-<link rel="import" href="gietnaad-elem.html">
+<html><head><base target="_parent" /></head>
 <style>
-body{
-      font-family: 'RobotoDraft', sans-serif;
+#posts img{
+  width:100%;
 }
-gietnaad-elem{
-      position:absolute;
-      top:0px;
-      left:0px;
+#posts{
+  list-style-type:none;
+  margin:0;
+  padding:0;
+  max-width:550px;
+}
+body{
+  font-family: RobotoDraft, sans-serif;
+  background-color:rgba(240,240,240,1);
+}
+
+.card{
+  padding:20px;
+  padding-bottom: 50px;
+  background-color:white;
+  margin-top:20px;
+  box-shadow: 0px 5px 5px #ddd;
+}
+
+.post{
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height:0;
+  background-size:cover
+}
+.post>div{
+  font-size:150%;
+  margin-top:-3em;
+  padding-left:1em;
+  padding-right:1em;
+  height:3em;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.8) 0%,rgba(255,255,255,0.8) 80%,rgba(255,255,255,1) 100%);
+}
+.post>div p{
+  padding:0;
+  margin:0;
+}
+
+.timestamp{
+  float: right;
+  padding: 5px;
+  padding-right: 20px;
+  margin-top: 9px;
+  margin-right: -21px;
+  border: 1px solid #ccc;
+  border-right: none;
+}
+.caption>p{
+  margin-top: 0px;
+}
+
+.button-container{
+  max-width:550px;
+}
+#meer-button{
+  width: 120px;
+  padding: 10px;
+  text-align:center;
+  margin:20 auto;
+}
+
+#meer-button:hover{
+  cursor:pointer;
+  background-color:lightgrey;
 }
 </style>
-<script>
- if(navigator.userAgent.match(/(iPad|iPhone|iPod)/g)){
-  window.location.replace('http://niesink.github.io/old.html');
- }
-</script>
-</head><body>
-<gietnaad-elem>
-    <!--<a class="twitter-timeline" data-dnt="true" href="https://twitter.com/gietnaad" data-widget-id="466185189102583809" data-chrome="noheader nofooter noborders transparent">Tweets van @gietnaad</a>
-    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<body>
+<ul id="posts">
+</ul>
+<div class="button-container">
+  <div class="card" id="meer-button">Meer...</div>
+</div>
 
-    <script type="text/javascript" src="http://gietnaad.tumblr.com/js"></script>-->
-</gietnaad-elem>
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+<script type="text/javascript">
+var dagen = ["zondag","maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
+var maanden = ["januari","februari", "maart", "april", "mei", "juni", "juli", "augustus","september","oktober","november","december"];
+var postIndex = 0;
+var batchSize = 20;
+var totalPosts = 10000;
 
-  ga('create', 'UA-52585339-1', 'auto');
-  ga('send', 'pageview');
+function parsePosts(posts){
+  totalPosts = posts.response.total_posts;
+  posts.response.posts.forEach(function(post){
+    var cardNode = document.createElement('div');
+    cardNode.className = 'card';
 
+    var postNode = document.createElement('div');
+    postNode.className = 'post';
 
-</script>
-<script src="https://cdn.firebase.com/js/client/2.2.2/firebase.js"></script>
-<script>
-pushEnabled = false;
-displayButton = false;
-togglePush = function(){
+    var imgSrc = post.photos[0].alt_sizes[1].url;
+    imgSrc = imgSrc.replace('http:', 'https:');
+    postNode.style.backgroundImage="url('"+imgSrc+"')";
 
-  if(!pushEnabled){
-    subscribe();
-  }else{
-    pushEnabled = !pushEnabled;
-  }
+    var paddingTop = post.photos[0].alt_sizes[1].height * 100 / post.photos[0].alt_sizes[1].width;
+    postNode.style.paddingTop= paddingTop+"%";
 
-  console.log('pushEnabled: '+pushEnabled);
-}
-isPushEnabled = function(){
-  return pushEnabled;
-}
-window.addEventListener('load', function() {
+    var postTitle = document.createElement('div');
+    postTitle.className = 'caption';
+    postTitle.innerHTML = post.caption;
 
-  // Check that service workers are supported, if so, progressively
-  // enhance and add push messaging support, otherwise continue without it.
+    cardNode.appendChild(postTitle);
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/worker.js').then(initialiseState);
-  } else {
-    console.warn('Service workers aren\'t supported in this browser.');
-  }
-});
+    cardNode.appendChild(postNode);
 
-function initialiseState() {
-  // Are Notifications supported in the service worker?
-  if (!('showNotification' in ServiceWorkerRegistration.prototype)) {
-    console.warn('Notifications aren\'t supported.');
-    return;
-  }
+    var datum = new Date(post.timestamp*1000);
 
-  // Check the current Notification permission.
-  // If its denied, it's a permanent block until the
-  // user changes the permission
-  if (Notification.permission === 'denied') {
-    console.warn('The user has blocked notifications.');
-    return;
-  }
+    var timestamp = document.createElement('div');
+    timestamp.className='timestamp';
+    var minutes = "";
+    if(datum.getMinutes()<10){
+      minutes = "0"+datum.getMinutes();
+    }else{
+      minutes = datum.getMinutes();
+    }
+    timestamp.innerHTML = dagen[datum.getDay()]+" "+datum.getDate()+" "+maanden[datum.getMonth()]+" "+datum.getHours()+":"+minutes;
+    cardNode.appendChild(timestamp);
 
-  // Check if push messaging is supported
-  if (!('PushManager' in window)) {
-    console.warn('Push messaging isn\'t supported.');
-    return;
-  }
-
-  document.addEventListener('enablebutton', function (e) {console.log('luid en duidelijk');}, false)
-
-  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-    // Do we already have a push message subscription?
-    serviceWorkerRegistration.pushManager.getSubscription()
-    .then(function(subscription) {
-      // Enable any UI which subscribes / unsubscribes from
-      // push messages.
-      console.log(subscription);
-      if (!subscription) {
-       // nog even niet automatisch vragen om subscription
-        //subscribe();
-        return;
-      }
-
-      // Keep your server in sync with the latest subscriptionId
-      console.warn(subscription.subscriptionId+''+subscription.endpoint);
-
-      // Set your UI to show they have subscribed for
-      // push messages
-      pushEnabled = true;
-    })
-    .catch(function(err) {
-      console.warn('Error during getSubscription()', err);
-    });
-  });
-};
-
-function subscribe() {
-  // Disable the button so it can't be changed while
-  // we process the permission request
-  // var pushButton = document.querySelector('.js-push-button');
-  // pushButton.disabled = true;
-
-  navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-    serviceWorkerRegistration.pushManager.subscribe()
-    .then(function(subscription) {
-      // The subscription was successful
-      pushEnabled = true;
-      var myFirebaseRef = new Firebase("https://amber-fire-2637.firebaseio.com/");
-      console.warn(subscription.subscriptionId+' '+subscription.endpoint);
-      // alert(subscription.subscriptionId+' '+subscription.endpoint);
-      myFirebaseRef.set({
-        subscriptionId: subscription.subscriptionId,
-        endpoint: subscription.endpoint
-      });
-    })
-    .catch(function(e) {
-
-      if (Notification.permission === 'denied') {
-        // The user denied the notification permission which
-        // means we failed to subscribe and the user will need
-        // to manually change the notification permission to
-        // subscribe to push messages
-        console.warn('Permission for Notifications was denied');
-        // pushButton.disabled = true;
-      } else {
-        var myFirebaseRef = new Firebase("https://amber-fire-2637.firebaseio.com/");
-        // A problem occurred with the subscription; common reasons
-        // include network errors, and lacking gcm_sender_id and/or
-        // gcm_user_visible_only in the manifest.
-        console.error('Unable to subscribe to push.', e);
-        // pushButton.disabled = false;
-        // pushButton.textContent = 'Enable Push Messages';
-        myFirebaseRef.set({
-          subscriptionId: 'Unable to subscribe to push.',
-          endpoint: e
-        });
-      }
-    });
+    document.querySelector('#posts').appendChild(cardNode);
   });
 }
 </script>
-</body></html>
+<script type="text/javascript" src="https://api.tumblr.com/v2/blog/gietnaad.tumblr.com/posts/?api_key=Txl6eOFbtlJcEbKCx4JaBHnN04BUeDN8An6siFq6kvrRLEmuFo&dataType=jsonp&jsonp=parsePosts"></script>
+<script type="text/javascript">
+  document.getElementById('meer-button').addEventListener("click", function(){
+    postIndex = postIndex + batchSize;
+    if(postIndex+batchSize >= totalPosts){
+      document.getElementById('meer-button').style.visibility="hidden";
+    }
+    var script = document.createElement('script');
+    script.src = "https://api.tumblr.com/v2/blog/gietnaad.tumblr.com/posts/?api_key=Txl6eOFbtlJcEbKCx4JaBHnN04BUeDN8An6siFq6kvrRLEmuFo&dataType=jsonp&jsonp=parsePosts&limit="+batchSize+"&offset="+postIndex;
+    document.getElementsByTagName('body')[0].appendChild(script);
+  });
+</script>
+</body>
+</html>
